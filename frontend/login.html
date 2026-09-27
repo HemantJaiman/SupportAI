@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SupportAI Login - Sign in to your smart support platform powered by AI.">
+    <title>SupportAI - Sign In</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== Reset & Base ===== */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #eef2f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #1e293b;
+        }
+
+        /* ===== Card Container ===== */
+        .login-card {
+            display: flex;
+            width: 820px;
+            min-height: 500px;
+            background: #ffffff;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+        }
+
+        /* ===== Left Panel (Branding) ===== */
+        .brand-panel {
+            flex: 1;
+            background: #f4f7fb;
+            padding: 48px 36px 36px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            border-right: 1px solid #e8ecf1;
+        }
+
+        .brand-logo {
+            width: 56px;
+            height: 56px;
+            margin-bottom: 12px;
+        }
+
+        .brand-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+
+        .brand-tagline {
+            font-size: 14px;
+            font-weight: 500;
+            color: #475569;
+            margin-bottom: 16px;
+        }
+
+        .brand-description {
+            font-size: 13px;
+            color: #64748b;
+            line-height: 1.6;
+            max-width: 260px;
+            margin-bottom: 28px;
+        }
+
+        .brand-illustration {
+            width: 100%;
+            max-width: 300px;
+            margin-top: auto;
+            border-radius: 8px;
+        }
+
+        /* ===== Right Panel (Form) ===== */
+        .form-panel {
+            flex: 1;
+            padding: 48px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-panel h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 6px;
+        }
+
+        .form-subtitle {
+            font-size: 13.5px;
+            color: #64748b;
+            margin-bottom: 32px;
+        }
+
+        /* ===== Form Fields ===== */
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 7px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 12px 14px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            color: #1e293b;
+            background: #ffffff;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            outline: none;
+        }
+
+        .input-wrapper input::placeholder {
+            color: #94a3b8;
+        }
+
+        .input-wrapper input:focus {
+            border-color: #4880e8;
+            box-shadow: 0 0 0 3px rgba(72, 128, 232, 0.12);
+        }
+
+        /* ===== Password Toggle ===== */
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            transition: color 0.2s ease;
+        }
+
+        .password-toggle:hover {
+            color: #64748b;
+        }
+
+        .password-toggle svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* ===== Sign In Button ===== */
+        .btn-signin {
+            width: 100%;
+            padding: 13px;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            color: #ffffff;
+            background: #4880e8;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 8px;
+        }
+
+        .btn-signin:hover {
+            background: #3b6fd4;
+            box-shadow: 0 4px 14px rgba(72, 128, 232, 0.3);
+        }
+
+        .btn-signin:active {
+            background: #3060c0;
+        }
+
+        /* ===== Footer Text ===== */
+        .form-footer {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .form-footer a {
+            color: #4880e8;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== SVG Logo ===== */
+        .logo-svg {
+            width: 56px;
+            height: 56px;
+            margin-bottom: 12px;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            .login-card {
+                flex-direction: column;
+                width: 95%;
+                max-width: 440px;
+                min-height: auto;
+            }
+
+            .brand-panel {
+                padding: 32px 24px 24px;
+                border-right: none;
+                border-bottom: 1px solid #e8ecf1;
+            }
+
+            .brand-illustration {
+                max-width: 200px;
+            }
+
+            .form-panel {
+                padding: 32px 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-card" id="login-card">
+
+        <!-- Left Panel — Branding -->
+        <div class="brand-panel">
+            <!-- SupportAI Chat-Bot Logo (inline SVG) -->
+            <svg class="logo-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="64" height="64" rx="16" fill="transparent" />
+                <path
+                    d="M32 8C19.85 8 10 16.28 10 26.5C10 32.18 13.12 37.22 18 40.56V52L27.2 44.36C28.76 44.6 30.36 44.74 32 44.74C44.15 44.74 54 36.72 54 26.5C54 16.28 44.15 8 32 8Z"
+                    fill="#4880e8" />
+                <circle cx="23" cy="27" r="3.5" fill="#ffffff" />
+                <circle cx="33" cy="27" r="3.5" fill="#ffffff" />
+                <circle cx="43" cy="27" r="3.5" fill="#ffffff" />
+                <!-- Antenna / bot detail -->
+                <circle cx="32" cy="6" r="3" fill="#4880e8" />
+                <line x1="32" y1="9" x2="32" y2="14" stroke="#4880e8" stroke-width="2.5" stroke-linecap="round" />
+            </svg>
+
+            <div class="brand-name">SupportAI</div>
+            <div class="brand-tagline"> Better support. Happier customers.</div>
+            <div class="brand-description">
+                A smart support platform for customers and support agents with AI&#8209;powered assistance.
+            </div>
+
+            <img class="brand-illustration" src="assets/support-illustration.jpg"
+                alt="Support agent working on laptop with chat bubbles">
+        </div>
+
+        <!-- Right Panel — Sign-In Form -->
+        <div class="form-panel">
+            <h1>Sign In</h1>
+            <p class="form-subtitle">Welcome back! Please sign in to continue.</p>
+
+            <form id="login-form" onsubmit="return false;">
+                <div class="form-group">
+                    <label for="email-input">Email address</label>
+                    <div class="input-wrapper">
+                        <input type="email" id="email-input" placeholder="you@example.com" autocomplete="email">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password-input">Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password-input" placeholder="Enter your password"
+                            autocomplete="current-password">
+                        <button type="button" class="password-toggle" id="password-toggle"
+                            aria-label="Toggle password visibility" onclick="togglePassword()">
+                            <!-- Eye icon (visible state) -->
+                            <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                            <!-- Eye-off icon (hidden state) -->
+                            <svg id="eye-off-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                style="display:none;">
+                                <path
+                                    d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+                                <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+                                <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24" />
+                                <line x1="1" y1="1" x2="23" y2="23" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-signin" id="signin-button">Sign In</button>
+            </form>
+
+            <p class="form-footer">Don't have an account? <a href="#">Contact your administrator.</a></p>
+        </div>
+
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password-input');
+            const eyeIcon = document.getElementById('eye-icon');
+            const eyeOffIcon = document.getElementById('eye-off-icon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.style.display = 'none';
+                eyeOffIcon.style.display = 'block';
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.style.display = 'block';
+                eyeOffIcon.style.display = 'none';
+            }
+        }
+    </script>
+
+</body>
+
+</html>
