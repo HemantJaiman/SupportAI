@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="SupportAI Customer Dashboard - View and manage your support tickets with AI-powered assistance.">
+    <title>SupportAI - Customer Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== Reset & Base ===== */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ===== Sidebar ===== */
+        .sidebar {
+            width: 240px;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #0f1a2e 0%, #162038 100%);
+            display: flex;
+            flex-direction: column;
+            padding: 28px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 100;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 24px;
+            margin-bottom: 36px;
+        }
+
+        .sidebar-brand svg {
+            width: 34px;
+            height: 34px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-brand-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            color: #e2e8f0;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .nav-item.active {
+            color: #ffffff;
+            background: rgba(72, 128, 232, 0.15);
+            border-left-color: #4880e8;
+        }
+
+        .nav-item svg {
+            width: 19px;
+            height: 19px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-footer {
+            padding: 0 24px;
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .nav-item.logout {
+            color: #ef4444;
+            opacity: 0.8;
+        }
+
+        .nav-item.logout:hover {
+            opacity: 1;
+            background: rgba(239, 68, 68, 0.08);
+        }
+
+        /* ===== Main Content ===== */
+        .main-content {
+            margin-left: 240px;
+            flex: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== Top Bar ===== */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 18px 32px;
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 10px;
+            transition: background 0.2s ease;
+        }
+
+        .user-profile:hover {
+            background: #f1f5f9;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4880e8, #6c5ce7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        /* ===== Page Content ===== */
+        .page-content {
+            padding: 32px;
+            flex: 1;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 6px;
+        }
+
+        .page-greeting {
+            font-size: 16px;
+            color: #475569;
+            margin-bottom: 4px;
+        }
+
+        .page-greeting span {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 28px;
+        }
+
+        /* ===== Stats Cards ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 22px 24px;
+            border-top: 3.5px solid transparent;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+        }
+
+        .stat-card.open {
+            border-top-color: #3b82f6;
+        }
+
+        .stat-card.pending {
+            border-top-color: #f59e0b;
+        }
+
+        .stat-card.resolved {
+            border-top-color: #22c55e;
+        }
+
+        .stat-card.total {
+            border-top-color: #8b5cf6;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .stat-card.open .stat-value {
+            color: #3b82f6;
+        }
+
+        .stat-card.pending .stat-value {
+            color: #f59e0b;
+        }
+
+        .stat-card.resolved .stat-value {
+            color: #22c55e;
+        }
+
+        .stat-card.total .stat-value {
+            color: #8b5cf6;
+        }
+
+        /* ===== Recent Tickets Table ===== */
+        .table-section {
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+        }
+
+        .table-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .table-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .view-all-link {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4880e8;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .view-all-link:hover {
+            color: #3b6fd4;
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 14px 24px;
+            border-bottom: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+
+        tbody td {
+            padding: 14px 24px;
+            font-size: 13.5px;
+            color: #334155;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        tbody tr {
+            transition: background 0.15s ease;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .ticket-id {
+            font-weight: 600;
+            color: #475569;
+        }
+
+        /* ===== Status Badge ===== */
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .badge-open {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .badge-pending {
+            background: #fffbeb;
+            color: #d97706;
+        }
+
+        .badge-resolved {
+            background: #f0fdf4;
+            color: #16a34a;
+        }
+
+        /* ===== Priority Badge ===== */
+        .priority {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .priority-high {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .priority-medium {
+            background: #fffbeb;
+            color: #d97706;
+        }
+
+        .priority-low {
+            background: #f0fdf4;
+            color: #16a34a;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+                padding: 20px 0;
+            }
+
+            .sidebar-brand-name,
+            .nav-item span {
+                display: none;
+            }
+
+            .sidebar-brand {
+                justify-content: center;
+                padding: 0;
+            }
+
+            .nav-item {
+                justify-content: center;
+                padding: 12px;
+                border-left: none;
+            }
+
+            .nav-item.active {
+                border-left: none;
+                border-radius: 8px;
+                margin: 0 8px;
+            }
+
+            .sidebar-footer {
+                padding: 0 8px;
+            }
+
+            .main-content {
+                margin-left: 70px;
+            }
+
+            .page-content {
+                padding: 20px 16px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .table-section {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 600px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== Sidebar ===== -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <!-- SupportAI Chat-Bot Logo (inline SVG) -->
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M32 8C19.85 8 10 16.28 10 26.5C10 32.18 13.12 37.22 18 40.56V52L27.2 44.36C28.76 44.6 30.36 44.74 32 44.74C44.15 44.74 54 36.72 54 26.5C54 16.28 44.15 8 32 8Z"
+                    fill="#4880e8" />
+                <circle cx="23" cy="27" r="3.5" fill="#ffffff" />
+                <circle cx="33" cy="27" r="3.5" fill="#ffffff" />
+                <circle cx="43" cy="27" r="3.5" fill="#ffffff" />
+                <circle cx="32" cy="6" r="3" fill="#4880e8" />
+                <line x1="32" y1="9" x2="32" y2="14" stroke="#4880e8" stroke-width="2.5" stroke-linecap="round" />
+            </svg>
+            <span class="sidebar-brand-name">SupportAI</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <!-- Dashboard -->
+            <a href="#" class="nav-item active" id="nav-dashboard">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7" rx="1" />
+                    <rect x="14" y="3" width="7" height="7" rx="1" />
+                    <rect x="3" y="14" width="7" height="7" rx="1" />
+                    <rect x="14" y="14" width="7" height="7" rx="1" />
+                </svg>
+                <span>Dashboard</span>
+            </a>
+
+            <!-- My Tickets -->
+            <a href="customer_dashboard.html" class="nav-item" id="nav-my-tickets">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" y1="13" x2="8" y2="13" />
+                    <line x1="16" y1="17" x2="8" y2="17" />
+                    <polyline points="10 9 9 9 8 9" />
+                </svg>
+                <span>My Tickets</span>
+            </a>
+
+            <!-- Create Ticket -->
+            <a href="create_ticket.html" class="nav-item" id="nav-create-ticket">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                <span>Create Ticket</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item logout" id="nav-logout">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                    <polyline points="16 17 21 12 16 7" />
+                    <line x1="21" y1="12" x2="9" y2="12" />
+                </svg>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- ===== Main Content ===== -->
+    <main class="main-content">
+
+        <!-- Top Bar -->
+        <header class="top-bar" id="top-bar">
+            <div class="user-profile" id="user-profile">
+                <div class="user-avatar">S</div>
+                <span class="user-name">Shivam</span>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <section class="page-content">
+            <h1 class="page-title">Customer Dashboard</h1>
+            <p class="page-greeting">Hello, <span>Shivam</span> 👋</p>
+            <p class="page-subtitle">Here's an overview of your support tickets.</p>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid" id="stats-grid">
+                <div class="stat-card open" id="stat-open">
+                    <div class="stat-label">Open Tickets</div>
+                    <div class="stat-value">2</div>
+                </div>
+                <div class="stat-card pending" id="stat-pending">
+                    <div class="stat-label">Pending Tickets</div>
+                    <div class="stat-value">1</div>
+                </div>
+                <div class="stat-card resolved" id="stat-resolved">
+                    <div class="stat-label">Resolved Tickets</div>
+                    <div class="stat-value">5</div>
+                </div>
+                <div class="stat-card total" id="stat-total">
+                    <div class="stat-label">Total Tickets</div>
+                    <div class="stat-value">8</div>
+                </div>
+            </div>
+
+            <!-- Recent Tickets Table -->
+            <div class="table-section" id="recent-tickets">
+                <div class="table-header">
+                    <h2 class="table-title">Recent Tickets</h2>
+                    <a href="#" class="view-all-link" id="view-all-tickets">View all</a>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Subject</th>
+                            <th>Status</th>
+                            <th>Priority</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tickets-table-body">
+                        <tr onclick="window.location.href='customer_ticket_detail.html'" style="cursor: pointer;">
+                            <td class="ticket-id"><a href="customer_ticket_detail.html" style="color: inherit;">#1008</a></td>
+                            <td><a href="customer_ticket_detail.html" style="color: inherit;">Login issue</a></td>
+                            <td><span class="badge badge-open">Open</span></td>
+                            <td><span class="priority priority-high">High</span></td>
+                            <td>2 hours ago</td>
+                        </tr>
+                        <tr>
+                            <td class="ticket-id">#1007</td>
+                            <td>Billing question</td>
+                            <td><span class="badge badge-pending">Pending</span></td>
+                            <td><span class="priority priority-medium">Medium</span></td>
+                            <td>1 day ago</td>
+                        </tr>
+                        <tr>
+                            <td class="ticket-id">#1006</td>
+                            <td>Feature request</td>
+                            <td><span class="badge badge-resolved">Resolved</span></td>
+                            <td><span class="priority priority-low">Low</span></td>
+                            <td>2 days ago</td>
+                        </tr>
+                        <tr>
+                            <td class="ticket-id">#1005</td>
+                            <td>Error in application</td>
+                            <td><span class="badge badge-resolved">Resolved</span></td>
+                            <td><span class="priority priority-high">High</span></td>
+                            <td>3 days ago</td>
+                        </tr>
+                        <tr>
+                            <td class="ticket-id">#1004</td>
+                            <td>Account access</td>
+                            <td><span class="badge badge-resolved">Resolved</span></td>
+                            <td><span class="priority priority-medium">Medium</span></td>
+                            <td>4 days ago</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+</body>
+
+</html>
