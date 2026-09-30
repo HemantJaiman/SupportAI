@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="SupportAI Agent Ticket Detail - View and respond to customer tickets with AI tools.">
+    <title>SupportAI - Ticket #1008 Detail</title>
+    <link rel="stylesheet" href="css/agent.css">
+</head>
+
+<body>
+
+    <!-- Shared Sidebar Container -->
+    <div id="sidebar-container"></div>
+
+    <!-- ===== Main Content ===== -->
+    <main class="main-content">
+
+        <!-- Shared Top Bar Container -->
+        <div id="topbar-container"></div>
+
+        <!-- Page Content -->
+        <section class="page-content">
+            <div class="ticket-card">
+
+                <!-- Ticket Header Row -->
+                <div class="ticket-header-row">
+                    <h1 class="ticket-number-title">Ticket #1008</h1>
+                    <div class="header-actions">
+                        <div class="status-badge">
+                            <span class="status-dot"></span> Open
+                        </div>
+                        <button class="btn-assign" onclick="handleAssign(this)">Assign</button>
+                    </div>
+                </div>
+
+                <!-- Ticket Subject & Meta Block -->
+                <div class="ticket-subject-block">
+                    <div class="subject-line">
+                        <span class="subject-title">Login issue</span>
+                        <span class="priority-badge-high">High Priority</span>
+                    </div>
+                    <div class="meta-info">
+                        Created 2 hours ago &nbsp;&middot;&nbsp; Customer: Shivam
+                    </div>
+                </div>
+
+                <!-- Tabs Row -->
+                <div class="tabs-nav">
+                    <button class="tab-button active" onclick="switchTab('conversation', this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        Conversation
+                    </button>
+                    <button class="tab-button" onclick="switchTab('ai-assistant', this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2a10 10 0 1 0 10 10H12V2z"></path>
+                            <path d="M12 12L2.5 7.5"></path>
+                            <path d="M12 12v10"></path>
+                        </svg>
+                        AI Assistant
+                    </button>
+                    <button class="tab-button" onclick="switchTab('details', this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        Details
+                    </button>
+                </div>
+
+                <!-- Conversation Tab Content -->
+                <div id="tab-conversation" class="tab-content active">
+                    <div class="conversation-thread" id="conversation-thread">
+
+                        <!-- Customer Message -->
+                        <div class="message-card">
+                            <div class="message-avatar avatar-customer">S</div>
+                            <div class="message-body">
+                                <div class="message-header">
+                                    <div class="sender-name">Shivam <span class="sender-role">(Customer)</span></div>
+                                    <div class="message-time">2 hours ago</div>
+                                </div>
+                                <div class="message-text">
+                                    I'm unable to login to my account. I keep getting an error message.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Agent Message -->
+                        <div class="message-card">
+                            <div class="message-avatar avatar-agent">AS</div>
+                            <div class="message-body">
+                                <div class="message-header">
+                                    <div class="sender-name">Agent Smith</div>
+                                    <div class="message-time">1 hour ago</div>
+                                </div>
+                                <div class="message-text">
+                                    We are looking into this issue. Could you please share the exact error message you are
+                                    seeing?
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Reply Form -->
+                    <form id="reply-form" onsubmit="handleSendReply(event)">
+                        <div class="reply-box">
+                            <input type="text" id="reply-input" class="reply-input" placeholder="Type a reply..."
+                                required>
+                            <button type="submit" class="btn-send">Send</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- AI Assistant Tab Content -->
+                <div id="tab-ai-assistant" class="tab-content">
+                    <div class="ai-content-card">
+                        <div class="ai-title">🤖 SupportAI Suggested Response</div>
+                        <div class="ai-suggestion-box">
+                            "Hello Shivam, thank you for reaching out! Could you please verify if resetting your password
+                            via the 'Forgot Password' link resolves the login error? If you receive an error code (e.g.
+                            ERR_AUTH_502), please reply with a screenshot so our technical team can assist you
+                            immediately."
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Details Tab Content -->
+                <div id="tab-details" class="tab-content">
+                    <div class="ai-content-card">
+                        <div class="ai-title">📋 Ticket Information</div>
+                        <div class="ai-suggestion-box">
+                            <strong>Category:</strong> Technical Support<br>
+                            <strong>Channel:</strong> Web Portal<br>
+                            <strong>Customer Email:</strong> shivam@example.com<br>
+                            <strong>Assigned Agent:</strong> Agent Smith
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22c55e"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+        <span id="toast-text">Reply sent successfully!</span>
+    </div>
+
+    <!-- Shared Layout Components Script -->
+    <script src="js/components.js"></script>
+    <script>
+        // Render shared agent layout with 'queue' as active menu
+        renderAgentLayout('queue');
+
+        function switchTab(tabName, btn) {
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+            btn.classList.add('active');
+            document.getElementById('tab-' + tabName).classList.add('active');
+        }
+
+        function handleSendReply(event) {
+            event.preventDefault();
+            const input = document.getElementById('reply-input');
+            const thread = document.getElementById('conversation-thread');
+            const text = input.value.trim();
+
+            if (!text) return;
+
+            const newMessage = document.createElement('div');
+            newMessage.className = 'message-card';
+            newMessage.innerHTML = `
+                <div class="message-avatar avatar-agent">AS</div>
+                <div class="message-body">
+                    <div class="message-header">
+                        <div class="sender-name">Agent Smith</div>
+                        <div class="message-time">Just now</div>
+                    </div>
+                    <div class="message-text">${escapeHtml(text)}</div>
+                </div>
+            `;
+            thread.appendChild(newMessage);
+            input.value = '';
+
+            showToast('Reply sent successfully!');
+        }
+
+        function handleAssign(btn) {
+            btn.textContent = 'Assigned ✓';
+            btn.style.background = '#16a34a';
+            showToast('Ticket #1008 assigned to Agent Smith!');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-text').textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+
+</body>
+
+</html>
