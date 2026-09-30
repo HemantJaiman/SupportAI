@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="SupportAI Customer Ticket Detail - View ticket conversation history and reply to support agents.">
+    <title>SupportAI - Ticket #1008 Detail</title>
+    <link rel="stylesheet" href="css/customer.css">
+</head>
+
+<body>
+
+    <!-- Shared Sidebar Container -->
+    <div id="sidebar-container"></div>
+
+    <!-- ===== Main Content ===== -->
+    <main class="main-content">
+
+        <!-- Shared Top Bar Container -->
+        <div id="topbar-container"></div>
+
+        <!-- Page Content -->
+        <section class="page-content">
+            <div class="ticket-card">
+
+                <!-- Header Navigation & Status Badge -->
+                <div class="ticket-nav-header">
+                    <a href="customer_dashboard.html" class="back-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        Back to My Tickets
+                    </a>
+
+                    <div class="status-badge">
+                        <span class="status-dot"></span> Open
+                    </div>
+                </div>
+
+                <!-- Ticket Subject & Priority Header -->
+                <div class="ticket-info-header">
+                    <h1 class="ticket-title">Login issue</h1>
+                    <div class="ticket-tags">
+                        <span class="priority-badge-high">
+                            <span class="priority-dot-high"></span> High Priority
+                        </span>
+                    </div>
+                    <div class="ticket-timestamps">
+                        Created 2 hours ago &nbsp;&middot;&nbsp; Last updated 1 hour ago
+                    </div>
+                </div>
+
+                <!-- Conversation Thread -->
+                <div class="conversation-thread" id="conversation-thread">
+
+                    <!-- Customer Message -->
+                    <div class="message-card">
+                        <div class="message-avatar avatar-customer">S</div>
+                        <div class="message-body">
+                            <div class="message-header">
+                                <div class="sender-name">Shivam <span class="sender-role">(Customer)</span></div>
+                                <div class="message-time">2 hours ago</div>
+                            </div>
+                            <div class="message-text">
+                                I'm unable to login to my account. I keep getting an error message.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Support Agent Message -->
+                    <div class="message-card">
+                        <div class="message-avatar avatar-agent">AS</div>
+                        <div class="message-body">
+                            <div class="message-header">
+                                <div class="sender-name">Support Agent</div>
+                                <div class="message-time">1 hour ago</div>
+                            </div>
+                            <div class="message-text">
+                                We are looking into this issue. Could you please share the exact error message you are
+                                seeing?
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Reply Box -->
+                <form id="reply-form" onsubmit="handleSendReply(event)">
+                    <div class="reply-box">
+                        <input type="text" id="reply-input" class="reply-input" placeholder="Type a message..."
+                            required>
+                        <button type="submit" class="btn-send">Send</button>
+                    </div>
+                </form>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22c55e"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+        <span>Message sent successfully!</span>
+    </div>
+
+    <!-- Shared Layout Components Script -->
+    <script src="js/components.js"></script>
+    <script>
+        // Render shared customer layout with 'my-tickets' as active menu
+        renderCustomerLayout('my-tickets');
+
+        function handleSendReply(event) {
+            event.preventDefault();
+            const input = document.getElementById('reply-input');
+            const thread = document.getElementById('conversation-thread');
+            const messageText = input.value.trim();
+
+            if (!messageText) return;
+
+            // Dynamically append customer reply
+            const newMessage = document.createElement('div');
+            newMessage.className = 'message-card';
+            newMessage.innerHTML = `
+                <div class="message-avatar avatar-customer">S</div>
+                <div class="message-body">
+                    <div class="message-header">
+                        <div class="sender-name">Shivam <span class="sender-role">(Customer)</span></div>
+                        <div class="message-time">Just now</div>
+                    </div>
+                    <div class="message-text">${escapeHtml(messageText)}</div>
+                </div>
+            `;
+            thread.appendChild(newMessage);
+            input.value = '';
+
+            // Show toast
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+
+</body>
+
+</html>
